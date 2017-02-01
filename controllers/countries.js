@@ -16,7 +16,6 @@ countryRouter.get('/:id', function(req, res){
 
 //film index
 countryRouter.get('/', function(req, res) {
-  // res.json(countries);
   query.all(function(results) {
     res.json(results);
   });
@@ -34,7 +33,10 @@ countryRouter.put('/:id', function(req, res) {
 //add new country
 countryRouter.post('/', function(req, res) {
   var country = new Country({
-    name: req.body.name
+    name: req.body.name,
+    capital: req.body.capital,
+    capital: req.body.capital,
+    region: req.body.region
   });
   query.add(country);
   query.all(function(results) {

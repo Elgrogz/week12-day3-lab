@@ -27,19 +27,27 @@ Countries.prototype = {
    }
    return countryList;
   },
-  all: function(callback) {
+  getCountries: function(callback) {
     var self = this;
     this.makeRequest("https://restcountries.eu/rest/v1/all", function() {
     if(this.status !== 200) return;
     var results = JSON.parse(this.responseText);
     var countries = self.populateList(results);
     callback(countries);
-    // console.log(countries);
     })
-  }
-  // app: function() {
-  //   var url = "https://restcountries.eu/rest/v1/all";
-  //   makeRequest(url, requestComplete);
+  },
+  // getBucketlist: function(callback) {
+  //   var self = this;
+  //   this.makeRequest("/api/countries", function() {
+  //     if (this.status !== 200) {
+  //       return;
+  //     }
+  //     var jsonString = this.responseText;
+  //     var results = JSON.parse(jsonString);
+  //     // console.log(results);
+  //     var countries = self.populateFilms(results);
+  //     callback(countries);
+  //   });
   // }
 
 }

@@ -3,17 +3,13 @@ var Countries = require('../models/countries');
 
 var UI = function() {
   this.countries = new Countries();
-  this.countries.all(function(results) {
-    this.getDropdown(results);
-    // this.render(result);
+  this.countries.getCountries(function(results) {
+    this.render(results);
   }.bind(this));
 }
 
 UI.prototype = {
-  createBucketList: function() {
-
-  },
-  getDropdown: function(countries) {
+  render: function(countries) {
     var body = document.querySelector('body');
     var select = document.createElement('select');
     
@@ -39,9 +35,9 @@ UI.prototype = {
         }
       }
       // console.log(country);
-
+      country = {name: country.name, capital: country.capital, region: country.region};
       jsonCountry = JSON.stringify(country);
-      console.log(jsonCountry);
+ 
 
       this.countries.makePostRequest("/api/countries", function() {
         console.log(this.responseText);
@@ -75,24 +71,15 @@ UI.prototype = {
     
     
     body.appendChild(select);
+
+    
   },
-  // addToBucketList: function() {
-  
-
+  // renderBucketlist: function() {
+  //   this.countries.makeRequest('/api/countries', function() {
+  //   return this.responseText;
+  //     // console.log(this.responseText);
+  //   });
   // }
-
 }
-
-
-
-// var body = document.querySelector('body');
-// var select = document.createElement('select');
-// countries.forEach(function(country) {
-//   var option = document.createElement("option");
-//   option.innerText = country.name;
-//   option.value = country.name;
-//   body.appendChild('select');
-//   select.appendChild('option');
-// });
 
 module.exports = UI;

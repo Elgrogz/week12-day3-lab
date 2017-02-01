@@ -63,42 +63,25 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var UI = __webpack_require__(1);
-
-var app = function() {
-  new UI();
-}
-
-window.onload = app;
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Countries = __webpack_require__(2);
+var Countries = __webpack_require__(1);
 // var MapWrapper = require('../models/mapWrapper');
 
 var UI = function() {
   this.countries = new Countries();
-  this.countries.all(function(results) {
-    this.getDropdown(results);
-    // this.render(result);
+  this.countries.getCountries(function(results) {
+    this.render(results);
   }.bind(this));
 }
 
 UI.prototype = {
-  createBucketList: function() {
-
-  },
-  getDropdown: function(countries) {
+  render: function(countries) {
     var body = document.querySelector('body');
     var select = document.createElement('select');
     
@@ -124,9 +107,9 @@ UI.prototype = {
         }
       }
       // console.log(country);
-
+      country = {name: country.name, capital: country.capital, region: country.region};
       jsonCountry = JSON.stringify(country);
-      console.log(jsonCountry);
+ 
 
       this.countries.makePostRequest("/api/countries", function() {
         console.log(this.responseText);
@@ -160,33 +143,24 @@ UI.prototype = {
     
     
     body.appendChild(select);
+
+    
   },
-  // addToBucketList: function() {
-  
-
+  // renderBucketlist: function() {
+  //   this.countries.makeRequest('/api/countries', function() {
+  //   return this.responseText;
+  //     // console.log(this.responseText);
+  //   });
   // }
-
 }
-
-
-
-// var body = document.querySelector('body');
-// var select = document.createElement('select');
-// countries.forEach(function(country) {
-//   var option = document.createElement("option");
-//   option.innerText = country.name;
-//   option.value = country.name;
-//   body.appendChild('select');
-//   select.appendChild('option');
-// });
 
 module.exports = UI;
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Country = __webpack_require__(3);
+var Country = __webpack_require__(2);
 
 var Countries = function() {}
 
@@ -215,19 +189,27 @@ Countries.prototype = {
    }
    return countryList;
   },
-  all: function(callback) {
+  getCountries: function(callback) {
     var self = this;
     this.makeRequest("https://restcountries.eu/rest/v1/all", function() {
     if(this.status !== 200) return;
     var results = JSON.parse(this.responseText);
     var countries = self.populateList(results);
     callback(countries);
-    // console.log(countries);
     })
-  }
-  // app: function() {
-  //   var url = "https://restcountries.eu/rest/v1/all";
-  //   makeRequest(url, requestComplete);
+  },
+  // getBucketlist: function(callback) {
+  //   var self = this;
+  //   this.makeRequest("/api/countries", function() {
+  //     if (this.status !== 200) {
+  //       return;
+  //     }
+  //     var jsonString = this.responseText;
+  //     var results = JSON.parse(jsonString);
+  //     // console.log(results);
+  //     var countries = self.populateFilms(results);
+  //     callback(countries);
+  //   });
   // }
 
 }
@@ -236,16 +218,29 @@ Countries.prototype = {
 module.exports = Countries;
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports) {
 
 var Country = function(options) {
   this.name = options.name;
   this.capital = options.capital;
-  this.continent = options.continent;
+  this.region = options.region;
 }
 
 module.exports = Country;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var UI = __webpack_require__(0);
+
+var app = function() {
+  new UI();
+}
+
+window.onload = app;
+
 
 /***/ })
 /******/ ]);
