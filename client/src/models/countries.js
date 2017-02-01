@@ -9,13 +9,21 @@ Countries.prototype = {
     request.onload = callback;
     request.send();
   },
+  makePostRequest: function(url, callback, data) {
+    var request =  new XMLHttpRequest();
+    request.open("POST", url);
+    request.setRequestHeader("Content-type", "application/json")
+    request.onload = callback;
+    request.send(data);
+    // console.log(data);
+  },
   populateList: function(countries) {
    var countryList = [];
 
    for (var result of countries) {
-    var country = new Country(result); 
-    countryList.push(country);
-    // console.log(country.name);
+    // var country = new Country(result); 
+    countryList.push(result);
+    // console.log(result);
    }
    return countryList;
   },
